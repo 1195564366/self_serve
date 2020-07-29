@@ -1,4 +1,4 @@
-import { SequelizeModel, AdminModel, ProjectModel, DictionaryModel } from '@model'
+import { SequelizeModel, AdminModel, ProjectModel, DictionaryModel, CourseModel, ChapterModel } from '@model'
 import { success, error } from '@res'
 import moment from 'moment'
 import uuid from 'uuid'
@@ -181,6 +181,69 @@ class Admin {
     await DictionaryModel.destroy({
       where: params
     })
+    ctx.body = success()
+  }
+
+  // 课程列表
+  static async courseList (ctx) {
+    const result = await CourseModel.findAll({
+      order: [
+        ['id', 'DESC']
+      ]
+    })
+    ctx.body = success(result)
+  }
+
+  // 新增课程
+  static async courseAdd (ctx) {
+    const params = ctx.request.body
+    const checkResult = await CourseModel.findOne({
+      where: {
+        name: params.name
+      }
+    })
+    if (checkResult) {
+      ctx.body = error('课程已存在')
+      return
+    }
+    await CourseModel.create(params)
+    ctx.body = success()
+  }
+
+  // 章节列表
+  static async chapterList (ctx) {
+    const params = ctx.query
+    const result = await ChapterModel.findAll({
+      where: {
+        cid: params.cid
+      }
+    })
+    ctx.body = success(result)
+  }
+
+  // 新增章节
+  static async chapterAdd (ctx) {
+    const params = ctx.request.body
+    const courseResult = await CourseModel.findOne({
+      where: {
+        id: params.cid
+      }
+    })
+    if (!courseResult) {
+      ctx.body = error('课程不存在')
+      return
+    }
+    const chapterResult = await ChapterModel.findOne({
+      where: {
+        cid: params.cid,
+        name: params.name
+      }
+    })
+    if (chapterResult) {
+      ctx.body = error('课程章节已存在')
+      return
+    }
+    await ChapterModel.create(params)
     ctx.body = success()
   }
 }

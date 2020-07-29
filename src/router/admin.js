@@ -37,4 +37,15 @@ Router.post('/dictionary/add', async ctx => await AdminController.dictionaryAdd(
 
 // 删除字典
 Router.post('/dictionary/del', async ctx => await AdminController.dictionaryDel(ctx))
+
+// 课程列表
+Router.get('/course/list', async ctx => await AdminController.courseList(ctx))
+// 新增课程
+Router.post('/course/add', async ctx => await AdminController.courseAdd(ctx))
+
+// 章节列表
+Router.get('/chapter/list', async ctx => await AdminController.chapterList(ctx))
+// 新增章节
+Router.post('/chapter/add', async ctx => await AdminController.chapterAdd(ctx))
+
 module.exports = Router

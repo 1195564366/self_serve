@@ -27,6 +27,8 @@ const sequelize = new Sequelize(CONFIG_DB.database, CONFIG_DB.username, CONFIG_D
 sequelize.Admin = sequelize.import('./admin')
 sequelize.Project = sequelize.import('./project')
 sequelize.Dictionary = sequelize.import('./dictionary')
+sequelize.Course = sequelize.import('./course')
+sequelize.Chapter = sequelize.import('./chapter')
 
 
 // 将分类表与数据表关联起来
@@ -42,3 +44,5 @@ sequelize.sync({force: false, logging: false}).then(() => {
 export const AdminModel = sequelize.Admin
 export const ProjectModel = sequelize.Project
 export const DictionaryModel = sequelize.Dictionary
+export const CourseModel = sequelize.Course
+export const ChapterModel = sequelize.Chapter
